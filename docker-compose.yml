@@ -1,0 +1,16 @@
+version: '3.5'
+services:
+
+    aosp_build:
+      build: ./build
+      volumes: 
+        - /mnt/data:/mnt/data
+        - ./build:/opt/build
+      entrypoint: /opt/build/build.sh
+      deploy:
+        resources:
+          limits:
+            cpus: '6'
+            memory: 16384M
+      env_file:
+        - .env
