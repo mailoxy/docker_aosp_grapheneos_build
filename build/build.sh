@@ -27,6 +27,20 @@ if [[ ! -e $WORKDIR/keys/$DEVICE/avb_pkmd.bin ]]; then
   ../../external/avb/avbtool extract_public_key --key avb.pem --output avb_pkmd.bin
 fi
 
+
+if [[ -e $WORKDIR/kernel/google/crosshatch/build.sh ]] && [[ $DEVICE =~ ^(blueline|crosshatch)$ ]]; then
+  cd  $WORKDIR/kernel/google/crosshatch
+  git submodule update --init --recursive
+  ./build.sh $DEVICE
+fi
+
+if [[ -e $WORKDIR/kernel/google/wahoo/build.sh ]] && [[ $DEVICE =~ ^(walleye|taimen)$ ]]; then
+  cd  $WORKDIR/kernel/google/wahoo
+  git submodule update --init --recursive
+  ./build.sh $DEVICE
+fi
+
+
 cd $WORKDIR
 
 pushd system/core && git checkout rootdir/etc/hosts && wget https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -O rootdir/etc/hosts && popd
@@ -39,7 +53,6 @@ cat << EOF > packages/apps/Updater/res/values/config.xml
     <string name="url_legacy" translatable="false">$UPDATE_URL_LEGACY/</string>
 </resources>
 EOF
-
 
 mkdir -p vendor/google_devices
 
