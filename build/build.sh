@@ -6,7 +6,7 @@ AOSP_RELEASE_URL=https://dl.google.com/dl/android/aosp/
 
 mkdir -p $WORKDIR && cd $WORKDIR
 
-rm -f *.zip && wget -c $AOSP_RELEASE_URL/$FACTORY_IMAGE
+wget -c $AOSP_RELEASE_URL/$FACTORY_IMAGE
 
 git config --global user.name "Your Name"
 git config --global user.email "you@example.org"
