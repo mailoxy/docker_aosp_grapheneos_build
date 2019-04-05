@@ -1,6 +1,6 @@
 FROM debian:9
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -y install \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install \
     openjdk-8-jdk \
     git-core \
     gnupg \
