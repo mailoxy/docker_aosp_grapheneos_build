@@ -50,7 +50,6 @@ cat << EOF > packages/apps/Updater/res/values/config.xml
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="url" translatable="false">$UPDATE_URL/</string>
-    <string name="url_legacy" translatable="false">$UPDATE_URL_LEGACY/</string>
 </resources>
 EOF
 
