@@ -11,6 +11,9 @@ wget -c $AOSP_RELEASE_URL/$FACTORY_IMAGE
 git config --global user.name "Your Name"
 git config --global user.email "you@example.org"
 
+rm -rf packages/apps/Updater
+rm -rf system/core
+
 repo init -u $MANIFEST -b $RELEASE
 repo sync -j6 --force-sync
 
@@ -43,13 +46,17 @@ fi
 
 cd $WORKDIR
 
-pushd system/core && git checkout rootdir/etc/hosts && wget https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -O rootdir/etc/hosts && popd
+pushd system/core && wget https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts -O rootdir/etc/hosts && popd
 
-pushd packages/apps/Updater && git checkout res/values/config.xml && popd
+pushd packages/apps/Updater && popd
 cat << EOF > packages/apps/Updater/res/values/config.xml
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="url" translatable="false">$UPDATE_URL/</string>
+    <string name="channel_default" translatable="false">stable</string>
+    <string name="network_type_default" translatable="false">1</string>
+    <string name="battery_not_low_default" translatable="false">false</string>
+    <string name="idle_reboot_default" translatable="false">false</string>
 </resources>
 EOF
 
@@ -62,4 +69,3 @@ source script/envsetup.sh
 choosecombo release aosp_$DEVICE user
 make -j $(nproc) target-files-package brillo_update_payload
 script/release.sh $DEVICE
-
